@@ -17,6 +17,10 @@ public interface IO<A> {
 }
 
 final class IOUtil {
+    public static <A> IO<A> delay(Supplier<A> supplier) {
+        return SimpleIO.delay(supplier);
+    }
+
     public static <A> IO<A> pure(A value) {
         return SimpleIO.pure(value);
     }
