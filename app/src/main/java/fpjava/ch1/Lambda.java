@@ -33,11 +33,8 @@ public class Lambda {
     }
 
     public static void main(String[] args) {
-        List<Integer> xs = Arrays.asList(1, 2, 3);
-
-        p(triple(xs));
-        p(map(n -> n * 2, xs));
-        p(parseInt("a"));
-        p(parseInt("456"));
+        List<Integer> xs = Arrays.asList(4, 5, 6);
+        xs.forEach(x -> System.out.print(x));
+        System.out.println("");
     }
 }
