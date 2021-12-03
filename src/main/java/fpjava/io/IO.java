@@ -8,7 +8,7 @@ public interface IO<A> {
     A unsafeRunSync();
 
     default <B> IO<B> map(Function<? super A, ? extends B> mapper) {
-        return flatMap(mapper.andThen(SimpleIO::pure));
+        return flatMap(mapper.andThen(IOUtil::pure));
     }
 
     default <B> IO<B> as(B value) {
@@ -17,6 +17,10 @@ public interface IO<A> {
 }
 
 final class IOUtil {
+    public static <A> IO<A> pure(A value) {
+        return SimpleIO.pure(value);
+    }
+
     public static <A> IO<A> flatten(IO<? extends IO<A>> wrapped) {
         return new IO<A>() {
 
@@ -53,11 +57,7 @@ class SimpleIO<A> implements IO<A> {
         return new IO<B>() {
             @Override
             public <C> IO<C> flatMap(Function<? super B, ? extends IO<? extends C>> m) {
-                return IOUtil.flatten(delay(() -> {
-                    IO<B> iob = (IO<B>) mapper.apply(supplier.get());
-                    IO<C> ioc = iob.flatMap(m);
-                    return ioc;
-                }));
+                return IOUtil.flatten(delay(() -> mapper.apply(supplier.get()).flatMap(m)));
             }
 
             @Override
