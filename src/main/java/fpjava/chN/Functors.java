@@ -1,7 +1,5 @@
 package fpjava.chN;
 
-import fpjava.ch1.Try;
-
 import java.util.Optional;
 import java.util.concurrent.*;
 import java.util.function.Function;
