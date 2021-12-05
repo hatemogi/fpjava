@@ -7,6 +7,14 @@ import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Lambda 관련 설명할 것
+ * - 문법
+ * - 기본 API에서 쓰는 예
+ * - 내가 만들어 쓸 상황
+ * - compose, andThen
+ * - @FunctionalInterface
+ */
 public class Lambda {
     static List<Integer> triple(List<Integer> xs) {
         return xs.stream().map(x -> x * 3).collect(toList());
