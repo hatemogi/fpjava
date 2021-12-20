@@ -56,11 +56,16 @@ public class Tuple<T1, T2> {
 
     /**
      * 두 값을 한 번에 바꾸기.
-     * @return
      */
     public <U1, U2> Tuple<U1, U2> map(@Nonnull Function<T1, U1> map1,
                                       @Nonnull Function<T2, U2> map2) {
         return of(map1.apply(_1), map2.apply(_2));
     }
 
+    /**
+     * 두 값을 교환하기.
+     */
+    public Tuple<T2, T1> swap() {
+        return of(_2, _1);
+    }
 }

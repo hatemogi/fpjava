@@ -13,4 +13,8 @@ public class TupleTest {
         Tuple<String, Integer> t = Tuple.of("Hello", 456);
         assertEquals(t.map1(s -> "World"), Tuple.of("World", 456));
     }
+
+    @Test void swap() {
+        assertEquals(Tuple.of(2, "hello").swap(), Tuple.of("hello", 2));
+    }
 }
