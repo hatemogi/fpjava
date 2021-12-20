@@ -1,6 +1,5 @@
 package fpjava.chN;
 
-import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -43,22 +42,22 @@ public class Tuple<T1, T2> {
     /**
      * 첫번째 값을 바꾸기.
      */
-    public <U1> Tuple<U1, T2> map1(@Nonnull Function<T1, U1> mapper) {
+    public <U1> Tuple<U1, T2> map1(Function<T1, U1> mapper) {
         return of(mapper.apply(_1), _2);
     }
 
     /**
      * 두번째 값을 바꾸기.
      */
-    public <U2> Tuple<T1, U2> map2(@Nonnull Function<T2, U2> mapper) {
+    public <U2> Tuple<T1, U2> map2(Function<T2, U2> mapper) {
         return of(_1, mapper.apply(_2));
     }
 
     /**
      * 두 값을 한 번에 바꾸기.
      */
-    public <U1, U2> Tuple<U1, U2> map(@Nonnull Function<T1, U1> map1,
-                                      @Nonnull Function<T2, U2> map2) {
+    public <U1, U2> Tuple<U1, U2> map(Function<T1, U1> map1,
+                                      Function<T2, U2> map2) {
         return of(map1.apply(_1), map2.apply(_2));
     }
 
