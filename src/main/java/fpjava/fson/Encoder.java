@@ -2,6 +2,7 @@ package fpjava.fson;
 
 import java.util.function.Function;
 
+@FunctionalInterface
 public interface Encoder<A> {
     Fson encode(A value);
 

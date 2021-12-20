@@ -2,6 +2,7 @@ package fpjava.fson;
 
 import java.util.function.Function;
 
+@FunctionalInterface
 public interface Decoder<A> {
     A decode(Fson fson);
 
