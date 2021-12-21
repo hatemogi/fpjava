@@ -6,6 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FsonTest {
     @Test void fsonTest() {
-        assertTrue(Fson.number(123) instanceof Fson.JNumber);
+        assertTrue(Fson.number(123) instanceof Fson.FNumber);
     }
 }

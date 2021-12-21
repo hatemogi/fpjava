@@ -7,7 +7,8 @@ public interface Encoder<A> {
     Fson encode(A value);
 
     default <B> Encoder<B> contramap(Function<B, A> mapper) {
-        final Function<B, Fson> encoder = mapper.andThen(this::encode);
-        return encoder::apply;
+        return mapper.andThen(this::encode)::apply;
     }
+
+    Encoder<Integer> intEncoder = Fson::number;
 }

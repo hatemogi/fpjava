@@ -1,5 +1,7 @@
 package fpjava.fson;
 
+import java.util.Objects;
+
 public interface Fson {
 
     enum JsonType {
@@ -11,18 +13,50 @@ public interface Fson {
         JNull
     };
 
-    static JNumber number(Number value) {
-        return new JNumber(value);
+    Integer intValue();
+
+    static FNumber number(Number value) {
+        return new FNumber(value);
     }
 
-    final class JNumber {
+    final class FNumber implements Fson {
         private final Number value;
-        private JNumber(Number value) {
+        private FNumber(Number value) {
             this.value = value;
+        }
+
+        public Integer intValue() {
+            return value.intValue();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == this) {
+                return true;
+            } else if (!(o instanceof FNumber)) {
+                return false;
+            } else {
+                final Object that = ((FNumber)o).value;
+                return Objects.equals(value, that);
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(value);
+        }
+
+        @Override
+        public String toString() {
+            return "JNumber(" + value + ")";
         }
     }
 
-    final class JString implements Fson {
+    final class FString implements Fson {
 
+        @Override
+        public Integer intValue() {
+            throw new UnsupportedOperationException();
+        }
     }
 }
