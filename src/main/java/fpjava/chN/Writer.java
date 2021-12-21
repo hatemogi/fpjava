@@ -1,5 +1,7 @@
 package fpjava.chN;
 
+import fpjava.data.Tuple;
+
 import java.util.function.Function;
 
 public interface Writer<L, A> {

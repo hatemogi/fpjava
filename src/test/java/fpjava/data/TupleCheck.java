@@ -1,4 +1,4 @@
-package fpjava.chN;
+package fpjava.data;
 
 import io.vavr.collection.List;
 import io.vavr.test.Arbitrary;
