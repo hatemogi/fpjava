@@ -2,36 +2,25 @@ package fpjava.data;
 
 import java.util.function.Function;
 
-public final class State<S, A> {
-    private final Function<S, Tuple<S, A>> next;
-
-    private State(Function<S, Tuple<S, A>> next) {
-        this.next = next;
+@FunctionalInterface
+public interface State<S, A> {
+    static <S, A> State<S, A> pure(A value) {
+        return state -> Tuple.of(state, value);
     }
 
-    public static <S, A> State<S, A> of(Function<S, Tuple<S, A>> next) {
-        return new State<>(next);
-    }
+    Tuple<S, A> run(S initial);
 
-    public static <S, A> State<S, A> pure(A value) {
-        return of(state -> Tuple.of(state, value));
-    }
-
-    public Tuple<S, A> run(S initial) {
-        return next.apply(initial);
-    }
-
-    public <B> State<S, B> map(Function<A, B> mapper) {
-        return of(state -> {
-            Tuple<S, A> n = next.apply(state);
+    default <B> State<S, B> map(Function<A, B> mapper) {
+        return state -> {
+            Tuple<S, A> n = run(state);
             return Tuple.of(n._1, mapper.apply(n._2));
-        });
+        };
     }
 
-    public <B> State<S, B> flatMap(State<S, B> another) {
-        return of(state -> {
-            Tuple<S, A> n = next.apply(state);
-            return another.next.apply(n._1);
-        });
+    default <B> State<S, B> flatMap(State<S, B> another) {
+        return state -> {
+            Tuple<S, A> n = run(state);
+            return another.run(n._1);
+        };
     }
 }
