@@ -16,7 +16,9 @@ public interface Either<L, R> {
 
     <R2> Either<L, R2> map(Function<R, R2> mapper);
     <L2> Either<L2, R> leftMap(Function<L, L2> mapper);
+    Either<R, L> swap();
     R get();
+
 
     final class Left<L, R> implements Either<L, R> {
         private final L left;
@@ -32,6 +34,11 @@ public interface Either<L, R> {
         @Override
         public <L2> Either<L2, R> leftMap(Function<L, L2> mapper) {
             return new Left<>(mapper.apply(left));
+        }
+
+        @Override
+        public Either<R, L> swap() {
+            return right(left);
         }
 
         @Override
@@ -72,6 +79,11 @@ public interface Either<L, R> {
         @Override
         public <L2> Either<L2, R> leftMap(Function<L, L2> mapper) {
             return new Right<>(right);
+        }
+
+        @Override
+        public Either<R, L> swap() {
+            return left(right);
         }
 
         @Override
