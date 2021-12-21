@@ -40,4 +40,6 @@ public interface Codec<A> extends Encoder<A>, Decoder<A> {
             }
         };
     }
+
+    Codec<Integer> intCodec = build(intEncoder, intDecoder);
 }

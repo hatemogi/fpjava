@@ -22,4 +22,12 @@ public class CodecTest {
         Encoder<String> eS = e.contramap(Integer::parseInt);
         assertEquals(fson, eS.encode("456"));
     }
+
+    @Test
+    void codecTest() {
+        Codec<Integer> c = Codec.intCodec;
+        Fson f = Fson.number(456);
+        assertEquals(f, c.encode(c.decode(f)));
+        assertEquals(456, c.decode(c.encode(456)));
+    }
 }
