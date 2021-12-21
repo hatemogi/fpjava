@@ -41,6 +41,11 @@ public final class Tuple<T1, T2> {
         return Objects.hash(_1, _2);
     }
 
+    @Override
+    public String toString() {
+        return "Tuple(" + _1 + ", " + _2 + ")";
+    }
+
     /**
      * 첫번째 값을 바꾸기.
      */

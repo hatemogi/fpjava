@@ -1,22 +1,68 @@
 package fpjava.fson;
 
+import java.util.Map;
 import java.util.Objects;
 
 public interface Fson {
+    default Integer intValue() {
+        throw new UnsupportedOperationException();
+    }
 
-    enum JsonType {
-        JNumber,
-        JObject,
-        JArray,
-        JBoolean,
-        JString,
-        JNull
-    };
+    default Double doubleValue() {
+        throw new UnsupportedOperationException();
+    }
 
-    Integer intValue();
+    default String stringValue() {
+        throw new UnsupportedOperationException();
+    }
+
+    default FObject objectValue() {
+        throw new UnsupportedOperationException();
+    }
+
+    default FArray arrayValue() {
+        throw new UnsupportedOperationException();
+    }
 
     static FNumber number(Number value) {
         return new FNumber(value);
+    }
+
+    static FString string(String value) {
+        return new FString(value);
+    }
+
+    static FArray array(Iterable<Fson> values) {
+        return new FArray(values);
+    }
+
+    static FNull nullValue() {
+        return FNull.INSTANCE;
+    }
+
+    final class FNull implements Fson {
+        private static FNull INSTANCE = new FNull();
+        private FNull() {}
+
+        @Override
+        public String toString() {
+            return "FNull";
+        }
+    }
+
+    final class FObject implements Fson {
+        private final Map<String, Fson> map;
+        private FObject(Map<String, Fson> map) {
+            this.map = map;
+        }
+    }
+
+    final class FArray implements Fson {
+        private final Iterable<Fson> values;
+
+        private FArray(Iterable<Fson> values) {
+            this.values = values;
+        }
     }
 
     final class FNumber implements Fson {
@@ -25,8 +71,14 @@ public interface Fson {
             this.value = value;
         }
 
+        @Override
         public Integer intValue() {
             return value.intValue();
+        }
+
+        @Override
+        public Double doubleValue() {
+            return value.doubleValue();
         }
 
         @Override
@@ -48,15 +100,20 @@ public interface Fson {
 
         @Override
         public String toString() {
-            return "JNumber(" + value + ")";
+            return "FNumber(" + value + ")";
         }
     }
 
     final class FString implements Fson {
+        private final String value;
+
+        private FString(String value) {
+            this.value = value;
+        }
 
         @Override
-        public Integer intValue() {
-            throw new UnsupportedOperationException();
+        public String stringValue() {
+            return value;
         }
     }
 }

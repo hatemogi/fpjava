@@ -11,4 +11,5 @@ public interface Encoder<A> {
     }
 
     Encoder<Integer> intEncoder = Fson::number;
+    Encoder<String> stringEncoder = Fson::string;
 }
