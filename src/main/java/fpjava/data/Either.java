@@ -4,23 +4,24 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 
-public interface Either<L, R> {
+public abstract class Either<L, R> {
 
-    static <L, R> Either<L, R> left(L left) {
+    private Either() {}
+
+    public static <L, R> Either<L, R> left(L left) {
         return new Left<>(left);
     }
 
-    static <L, R> Either<L, R> right(R right) {
+    public static <L, R> Either<L, R> right(R right) {
         return new Right<>(right);
     }
 
-    <R2> Either<L, R2> map(Function<R, R2> mapper);
-    <L2> Either<L2, R> leftMap(Function<L, L2> mapper);
-    Either<R, L> swap();
-    R get();
+    public abstract <R2> Either<L, R2> map(Function<R, R2> mapper);
+    public abstract <L2> Either<L2, R> leftMap(Function<L, L2> mapper);
+    public abstract Either<R, L> swap();
+    public abstract R get();
 
-
-    final class Left<L, R> implements Either<L, R> {
+    static final class Left<L, R> extends Either<L, R> {
         private final L left;
         private Left(L left) {
             this.left = left;
@@ -64,7 +65,7 @@ public interface Either<L, R> {
         }
     }
 
-    final class Right<L, R> implements Either<L, R> {
+    static final class Right<L, R> extends Either<L, R> {
         private final R right;
 
         private Right(R right) {

@@ -20,7 +20,7 @@ public final class Tuple<T1, T2> {
         this._2 = t2;
     }
 
-    public static <T1, T2> Tuple<T1, T2> of(T1 t1, T2 t2) {
+    public static <T1, T2> Tuple<T1, T2> tuple(T1 t1, T2 t2) {
         return new Tuple<>(t1, t2);
     }
 
@@ -50,14 +50,14 @@ public final class Tuple<T1, T2> {
      * 첫번째 값을 바꾸기.
      */
     public <U1> Tuple<U1, T2> map1(Function<T1, U1> mapper) {
-        return of(mapper.apply(_1), _2);
+        return tuple(mapper.apply(_1), _2);
     }
 
     /**
      * 두번째 값을 바꾸기.
      */
     public <U2> Tuple<T1, U2> map2(Function<T2, U2> mapper) {
-        return of(_1, mapper.apply(_2));
+        return tuple(_1, mapper.apply(_2));
     }
 
     /**
@@ -65,13 +65,13 @@ public final class Tuple<T1, T2> {
      */
     public <U1, U2> Tuple<U1, U2> map(Function<T1, U1> map1,
                                       Function<T2, U2> map2) {
-        return of(map1.apply(_1), map2.apply(_2));
+        return tuple(map1.apply(_1), map2.apply(_2));
     }
 
     /**
      * 두 값을 교환하기.
      */
     public Tuple<T2, T1> swap() {
-        return of(_2, _1);
+        return tuple(_2, _1);
     }
 }
