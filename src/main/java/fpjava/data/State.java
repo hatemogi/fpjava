@@ -16,6 +16,14 @@ public interface State<S, A> {
         return state -> next.run(run(state)._1);
     }
 
+    static <S> State<S, Void> setState(S newState) {
+        return state -> tuple(newState, null);
+    }
+
+    static <S> State<S, S> getState() {
+        return state -> tuple(state, state);
+    }
+
     static <S, A> State<S, A> pure(A value) {
         return state -> tuple(state, value);
     }
@@ -25,6 +33,10 @@ public interface State<S, A> {
     }
 
     static <S, A, B, C> State<S, C> sequence(State<S, A> s1, State<S, B> s2, State<S, C> s3) {
-        return s1.flatMap(s2).flatMap(s3);
+        return sequence(s1, s2).flatMap(s3);
+    }
+
+    static <S, A, B, C, D> State<S, D> sequence(State<S, A> s1, State<S, B> s2, State<S, C> s3, State<S, D> s4) {
+        return sequence(s1, s2, s3).flatMap(s4);
     }
 }

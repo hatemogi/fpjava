@@ -14,8 +14,6 @@ public final class Tuple<T1, T2> {
     public final T2 _2;
 
     private Tuple(T1 t1, T2 t2) {
-        Objects.requireNonNull(t1);
-        Objects.requireNonNull(t2);
         this._1 = t1;
         this._2 = t2;
     }

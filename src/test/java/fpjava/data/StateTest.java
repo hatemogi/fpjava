@@ -18,6 +18,13 @@ public class StateTest {
     }
 
     @Test
+    void voidTest() {
+        State<Integer, String> s1 = State.pure("hello");
+        State<Integer, Void> s2 = State.setState(3);
+        System.out.println(s2.flatMap(s3 -> tuple(s3, "abc")).run(3));
+    }
+
+    @Test
     void rngTest() {
         // TODO: immutable RNG는 없나?
         State<Random, Integer> nextInt = r -> tuple(new Random(r.nextInt()), r.nextInt());
