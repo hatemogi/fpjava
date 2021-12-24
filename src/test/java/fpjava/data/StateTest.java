@@ -25,6 +25,17 @@ public class StateTest {
     }
 
     @Test
+    void setGetState() {
+        State<Integer, String> s1 = State.pure("hello");
+        State<Integer, String> s2 = s1.flatMap(State.getState()).flatMap(s -> {
+            assertEquals(3, s);
+            return tuple(s + 1, "world");
+        });
+        assertEquals(tuple(4, "world"), s2.run(3));
+        assertEquals(tuple(2, null), s2.flatMap(State.setState(2)).run(3));
+    }
+
+    @Test
     void rngTest() {
         // TODO: immutable RNG는 없나?
         State<Random, Integer> nextInt = r -> tuple(new Random(r.nextInt()), r.nextInt());
