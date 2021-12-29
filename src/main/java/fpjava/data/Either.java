@@ -30,9 +30,9 @@ public abstract class Either<L, R> {
     public abstract <R2> Either<L, R2> flatMap(Function<R, Either<L, R2>> mapper);
     public abstract boolean contains(R value);
     public abstract R get();
-    public abstract boolean isLeft();
 
-    public boolean isRight() {
+    public abstract boolean isLeft();
+    public final boolean isRight() {
         return !isLeft();
     }
 

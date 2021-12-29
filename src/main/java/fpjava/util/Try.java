@@ -22,15 +22,11 @@ public final class Try<A> {
         return of(fmap(block, mapper));
     }
 
-    public <B> Try<B> flatMap(Function<? super A, ? extends Try<? extends B>> t) {
-        throw new UnsupportedOperationException(); // TODO;
-    }
-
-    public Either<Exception, A> run() {
+    public Either<Throwable, A> run() {
         try {
             return Either.right(block.call());
-        } catch (Exception e) {
-            return Either.left(e);
+        } catch (Throwable t) {
+            return Either.left(t);
         }
     }
 }
