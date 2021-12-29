@@ -16,9 +16,19 @@ public abstract class Either<L, R> {
         return new Right<>(right);
     }
 
+    public static <L, R1, R2, R3> Either<L, R3> sequence(
+            Either<L, R1> start,
+            Function<R1, Either<L, R2>> e2,
+            Function<R2, Either<L, R3>> e3) {
+        return start.flatMap(e2).flatMap(e3);
+    }
+
     public abstract <R2> Either<L, R2> map(Function<R, R2> mapper);
     public abstract <L2> Either<L2, R> leftMap(Function<L, L2> mapper);
     public abstract Either<R, L> swap();
+
+    public abstract <R2> Either<L, R2> flatMap(Function<R, Either<L, R2>> mapper);
+    public abstract boolean contains(R value);
     public abstract R get();
 
     static final class Left<L, R> extends Either<L, R> {
@@ -40,6 +50,16 @@ public abstract class Either<L, R> {
         @Override
         public Either<R, L> swap() {
             return right(left);
+        }
+
+        @Override
+        public <R2> Either<L, R2> flatMap(Function<R, Either<L, R2>> mapper) {
+            return new Left<L, R2>(left);
+        }
+
+        @Override
+        public boolean contains(R value) {
+            return false;
         }
 
         @Override
@@ -85,6 +105,16 @@ public abstract class Either<L, R> {
         @Override
         public Either<R, L> swap() {
             return left(right);
+        }
+
+        @Override
+        public <R2> Either<L, R2> flatMap(Function<R, Either<L, R2>> mapper) {
+            return mapper.apply(right);
+        }
+
+        @Override
+        public boolean contains(R value) {
+            return Objects.equals(right, value);
         }
 
         @Override

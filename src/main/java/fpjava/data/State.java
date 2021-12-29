@@ -12,6 +12,7 @@ public interface State<S, A> {
         return state -> run(state).map2(mapper);
     }
 
+    // TODO: 확인. 보통은 flatMap :: S -> State<S, B> -> State<S, B>
     default <B> State<S, B> flatMap(State<S, B> next) {
         return state -> next.run(run(state)._1);
     }
