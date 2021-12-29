@@ -1,4 +1,4 @@
-package fpjava.ch1;
+package fpjava.util;
 
 import fpjava.data.Either;
 

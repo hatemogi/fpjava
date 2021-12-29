@@ -30,6 +30,11 @@ public abstract class Either<L, R> {
     public abstract <R2> Either<L, R2> flatMap(Function<R, Either<L, R2>> mapper);
     public abstract boolean contains(R value);
     public abstract R get();
+    public abstract boolean isLeft();
+
+    public boolean isRight() {
+        return !isLeft();
+    }
 
     static final class Left<L, R> extends Either<L, R> {
         private final L left;
@@ -65,6 +70,11 @@ public abstract class Either<L, R> {
         @Override
         public R get() {
             throw new NoSuchElementException();
+        }
+
+        @Override
+        public boolean isLeft() {
+            return true;
         }
 
         @Override
@@ -120,6 +130,11 @@ public abstract class Either<L, R> {
         @Override
         public R get() {
             return right;
+        }
+
+        @Override
+        public boolean isLeft() {
+            return false;
         }
 
         @Override

@@ -24,12 +24,20 @@ public interface Fson {
         throw new UnsupportedOperationException();
     }
 
+    default boolean boolValue() {
+        throw new UnsupportedOperationException();
+    }
+
     static FNumber number(Number value) {
         return new FNumber(value);
     }
 
     static FString string(String value) {
         return new FString(value);
+    }
+
+    static FBoolean bool(boolean value) {
+        return new FBoolean(value);
     }
 
     static FArray array(Iterable<Fson> values) {
@@ -116,4 +124,18 @@ public interface Fson {
             return value;
         }
     }
+
+    final class FBoolean implements Fson {
+        private final boolean value;
+
+        private FBoolean(boolean value) {
+            this.value = value;
+        }
+
+        @Override
+        public boolean boolValue() {
+            return value;
+        }
+    }
+
 }
