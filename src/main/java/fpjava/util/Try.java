@@ -2,32 +2,30 @@ package fpjava.util;
 
 import fpjava.data.Either;
 
-import static fpjava.chN.Functors.fmap;
-
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 
-public final class Try<A> {
-    private final Callable<A> block;
+@FunctionalInterface
+public interface Try<A> {
 
-    private Try(Callable<A> block) {
-        this.block = block;
+    static <A> Try<A> of(Callable<A> block) {
+        return () -> {
+            try {
+                return Either.right(block.call());
+            } catch (Throwable t) {
+                return Either.left(t);
+            }
+        };
     }
 
-    public static <A> Try<A> of(Callable<A> block) {
-        return new Try(block);
+    default <B> Try<B> map(Function<A, B> mapper) {
+        return () -> run().map(mapper);
     }
 
-    public <B> Try<B> map(Function<? super A, ? extends B> mapper) {
-        return of(fmap(block, mapper));
+    default <B> Try<B> flatMap(Function<A, Try<B>> mapper) {
+        return () -> run().flatMap(a -> mapper.apply(a).run());
     }
 
-    public Either<Throwable, A> run() {
-        try {
-            return Either.right(block.call());
-        } catch (Throwable t) {
-            return Either.left(t);
-        }
-    }
+    Either<Throwable, A> run();
 }
 
